@@ -1,0 +1,25 @@
+name: Continuos Integration Jorge Panzera
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    name: SAST Credentials y Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Pruebas de SAST
+        run: echo "Ejecucion de pruebas de SAST"
+
+      - name: Armar archivo de credenciales
+        run: |
+          echo "[credentials]" > credentials.ini
+          echo "username=${{ secrets.USERNAME }}" >> credentials.ini
+          echo "password=${{ secrets.PASSWORD }}" >> credentials.ini
+
+      - name: Build Docker Image
+        run: |
+          docker build -t devops_ws . --tag devops_ws_$(date +%s)
