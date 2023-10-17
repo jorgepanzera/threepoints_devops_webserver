@@ -18,10 +18,10 @@ jobs:
         run: echo "Ejecucion de pruebas de SAST"
 
       - name: Armar archivo de credenciales
-        run: |
-          echo "[credentials]" > credentials.ini
-          echo "username=${{ secrets.USERNAME }}" >> credentials.ini
-          echo "password=${{ secrets.PASSWORD }}" >> credentials.ini
+        env:
+          USERNAME: '${{ secrets.USERNAME }}'¨
+          PASSWORD: '${{ secrets.PASSWORD}}'
+        run: envsubst < credentials.ini.tpl > credentials.ini
 
       - name: Mostrar credentials.ini
         run: |
