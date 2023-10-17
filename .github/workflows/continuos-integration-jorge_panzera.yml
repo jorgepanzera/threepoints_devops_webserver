@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    name: SAST Credentials y Docker Build
+    name: Practica 3 Ejercicio 1
     runs-on: ubuntu-latest
 
     steps:
@@ -23,10 +23,11 @@ jobs:
           PASSWORD: '${{ secrets.PASSWORD}}'
         run: envsubst < credentials.ini.tpl > credentials.ini
 
-
-      - name: Mostrar credentials.ini
-        run: |
-          cat credentials.ini  
+      - name: Guardar credentials.ini como artefacto
+        uses: actions/upload-artifact@v2
+        with:
+          name: credentials
+          path: credentials.ini
 
       - name: Build Docker Image
         run: |
