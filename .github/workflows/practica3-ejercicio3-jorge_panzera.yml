@@ -1,0 +1,37 @@
+name: Pull Request Validation
+
+on:
+  pull_request:
+    types:
+      - opened
+
+jobs:
+  validate:
+    name: Validate Pull Request
+    runs-on: ubuntu-latest
+
+    env:
+      ALLOW_PULL_REQUEST: false
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Check for "allow_pull_request.txt"
+        id: check_file
+        run: |
+          if [ -f "allow_pull_request.txt" ]; then
+            echo "File 'allow_pull_request.txt' found."
+            ::set-env name=ALLOW_PULL_REQUEST::true
+          else
+            echo "File 'allow_pull_request.txt' not found."
+          fi
+
+      - name: Conditionally Print and Exit
+        run: |
+          if [[ "$ALLOW_PULL_REQUEST" == "true" ]]; then
+            echo "Permitiendo Pull Request"
+          else
+            echo "Build fallida. Impidiendo Pull Request"
+            exit 1
+          fi

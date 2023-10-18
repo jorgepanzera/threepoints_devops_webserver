@@ -1,0 +1,36 @@
+name: Ej2 Continuos Integration Jorge Panzera
+
+on:
+  push:
+    branches:
+      - 'master'
+      - 'feature*'
+      - 'hotfix*'
+
+jobs:
+  build:
+    name: Practica 3 Ejercicio 2
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Pruebas de SAST
+        run: echo "Ejecucion de pruebas de SAST"
+
+      - name: Armar archivo de credenciales
+        env:
+          USERNAME: '${{ secrets.USERNAME }}'
+          PASSWORD: '${{ secrets.PASSWORD}}'
+        run: envsubst < credentials.ini.tpl > credentials.ini
+
+      - name: Guardar credentials.ini como artefacto
+        uses: actions/upload-artifact@v3
+        with:
+          name: credentials
+          path: credentials.ini
+
+      - name: Build Docker Image
+        run: |
+          docker build -t devops_ws . --tag devops_ws_$(date +%s)
