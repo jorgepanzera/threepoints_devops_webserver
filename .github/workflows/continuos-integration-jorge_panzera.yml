@@ -12,7 +12,7 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Pruebas de SAST
         run: echo "Ejecucion de pruebas de SAST"
@@ -24,7 +24,7 @@ jobs:
         run: envsubst < credentials.ini.tpl > credentials.ini
 
       - name: Guardar credentials.ini como artefacto
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: credentials
           path: credentials.ini
