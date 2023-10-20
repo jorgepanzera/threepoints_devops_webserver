@@ -1,4 +1,4 @@
-name: Pull Request Validation
+name: Validar Pull Request
 
 on:
   pull_request:
@@ -7,7 +7,7 @@ on:
 
 jobs:
   validate:
-    name: Validate Pull Request
+    name: Practica 3 Ejercicio 3
     runs-on: ubuntu-latest
 
     env:
@@ -15,9 +15,9 @@ jobs:
 
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      - name: Check for "allow_pull_request.txt"
+      - name: Verificar si existe archivo allow_pull_request.txt
         id: check_file
         run: |
           if [ -f "allow_pull_request.txt" ]; then
@@ -27,7 +27,7 @@ jobs:
             echo "File 'allow_pull_request.txt' not found."
           fi
 
-      - name: Conditionally Print and Exit
+      - name: Mensaje Condicional para Pull Request
         run: |
           if [[ "$ALLOW_PULL_REQUEST" == "true" ]]; then
             echo "Permitiendo Pull Request"
